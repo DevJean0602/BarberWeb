@@ -1,0 +1,12 @@
+{
+  "name": "BarberWeb",
+  "version": "1.0.0",
+  "description": "Proyecto web para Barbería con Node.js y Express",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

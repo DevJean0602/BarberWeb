@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard SuperAdmin - Barbería</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      background: #f4f4f4;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 270px;
+      background: linear-gradient(180deg, #111 0%, #1c1c1c 100%);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      position: fixed;
+      height: 100vh;
+      box-shadow: 2px 0px 10px rgba(0,0,0,0.4);
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+
+    .sidebar-header h2 {
+      font-size: 20px;
+      color: #e63946;
+      font-weight: 700;
+    }
+
+    .sidebar-header img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #e63946;
+    }
+
+    .sidebar nav a {
+      color: #bbb;
+      text-decoration: none;
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s;
+      font-size: 15px;
+    }
+
+    .sidebar nav a:hover {
+      background: #e63946;
+      color: #fff;
+      transform: translateX(4px);
+    }
+
+    .submenu {
+      display: none;
+      flex-direction: column;
+      margin-left: 20px;
+    }
+
+    .submenu a {
+      font-size: 14px;
+      padding: 8px 12px;
+      margin-bottom: 6px;
+      color: #aaa;
+    }
+
+    .submenu a:hover {
+      background: #333;
+      color: #fff;
+    }
+
+    .toggle {
+      cursor: pointer;
+    }
+
+    /* Main content */
+    .main {
+      flex: 1;
+      padding: 20px;
+      margin-left: 270px;
+      overflow-y: auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      font-size: 24px;
+      color: #333;
+    }
+
+    header .user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    header .user img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #e63946;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: rgb(20, 0, 0);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0px 3px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 6px 15px rgba(0,0,0,0.15);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 16px;
+      color: #ddd;
+    }
+
+    .card p {
+      font-size: 22px;
+      font-weight: bold;
+      color: #e63946;
+    }
+
+    .charts {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+    }
+
+    .chart-container {
+      background: rgb(3, 0, 0);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0px 3px 8px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2>Mosquera Elite</h2>
+      <img src="../public/assets/img/imagene.png" alt="avatar">
+    </div>
+    <nav>
+      <a href="#">🏠 Dashboard General</a>
+      <div class="toggle">🏢 Gestión de Barberías ▼</div>
+      <div class="submenu">
+        <a href="#">➕ Crear Barbería</a>
+        <a href="#">✏️ Editar/Eliminar</a>
+        <a href="#">👔 Asignar Administradores</a>
+      </div>
+      <a href="#">👥 Gestión de Usuarios</a>
+      <a href="#">📊 Reportes Consolidados</a>
+      <a href="#">⚙️ Configuración Global</a>
+      <a href="#">📈 Monitoreo Performance</a>
+      <a href="#">🔑 Roles & Permisos</a>
+      <a href="#">💳 Suscripciones</a> <!-- Nuevo -->
+      <a href="#">💰 Sistema de Pagos</a> <!-- Nuevo -->
+      <a href="#" id="logoutBtn">🚪 Cerrar Sesión</a> <!-- Con ID -->
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <header>
+      <h1>Bienvenido, SuperAdmin</h1>
+      <div class="user">
+        <span>SuperAdmin</span>
+        <img src="../../img/imagene.png" alt="user">
+      </div>
+    </header>
+
+    <!-- Cards -->
+    <section class="cards">
+      <div class="card">
+        <h3>Barberías Activas</h3>
+        <p>12</p>
+      </div>
+      <div class="card">
+        <h3>Usuarios Registrados</h3>
+        <p>1,540</p>
+      </div>
+      <div class="card">
+        <h3>Citas Hoy</h3>
+        <p>326</p>
+      </div>
+      <div class="card">
+        <h3>Ingresos Globales</h3>
+        <p>$15.200.000</p>
+      </div>
+      <div class="card">
+        <h3>Suscripciones Activas</h3>
+        <p>238</p>
+      </div>
+      <div class="card">
+        <h3>Pagos Procesados</h3>
+        <p>$7.500.000</p>
+      </div>
+    </section>
+
+    <!-- Charts -->
+    <section class="charts">
+      <div class="chart-container">
+        <h3>Ingresos por Barbería (Semana)</h3>
+        <canvas id="lineChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Servicios más pedidos</h3>
+        <canvas id="pieChart"></canvas>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Toggle submenu
+    document.querySelector('.toggle').addEventListener('click', () => {
+      const submenu = document.querySelector('.submenu');
+      submenu.style.display = submenu.style.display === 'flex' ? 'none' : 'flex';
+    });
+
+    // Line chart
+    const ctxLine = document.getElementById('lineChart').getContext('2d');
+    new Chart(ctxLine, {
+      type: 'bar',
+      data: {
+        labels: ['Sucursal Norte', 'Centro', 'Sur', 'Oeste', 'Este'],
+        datasets: [{
+          label: 'Ingresos ($)',
+          data: [4200000, 3800000, 2600000, 3100000, 2900000],
+          backgroundColor: '#e63946'
+        }]
+      },
+      options: { responsive: true }
+    });
+
+    // Pie chart
+    const ctxPie = document.getElementById('pieChart').getContext('2d');
+    new Chart(ctxPie, {
+      type: 'pie',
+      data: {
+        labels: ['Corte', 'Barba', 'Tintura', 'Facial'],
+        datasets: [{
+          data: [50, 25, 15, 10],
+          backgroundColor: ['#e63946', '#457b9d', '#f4a261', '#2a9d8f']
+        }]
+      }
+    });
+
+    // 🔹 Cerrar sesión
+    document.getElementById('logoutBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      // Limpiar sesión
+      localStorage.clear();
+      sessionStorage.clear();
+
+      // Redirigir al login
+      window.location.href = "../login.html";
+    });
+  </script>
+</body>
+</html>
